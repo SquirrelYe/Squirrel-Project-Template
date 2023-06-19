@@ -1,5 +1,5 @@
 {
-  "name": "@squirreljs/squirrel-project-types",
+  "name": "@squirreljs/squirrel-project-configurations",
   "version": "0.0.0",
   "license": "MIT",
   "sideEffects": false,
@@ -14,14 +14,12 @@
     "dist"
   ],
   "scripts": {
-    "//build": "pnpm unbuild",
-    "//stub": "pnpm unbuild --stub",
+    "build": "pnpm unbuild",
+    "stub": "pnpm unbuild --stub",
     "clean": "pnpm rimraf .turbo node_modules dist",
     "lint": "pnpm eslint ."
   },
   "devDependencies": {
-    "@squirreljs/squirrel-project-ts-config": "workspace:^0.0.0",
-    "@squirreljs/squirrel-project-eslint-config": "workspace:^0.0.0",
     "unbuild": "^1.2.1"
   }
 }
