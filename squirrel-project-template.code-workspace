@@ -1,0 +1,39 @@
+{
+  "folders": [
+    // front-end
+    { "name": "front-end:squirrel-uniapp", "path": "./apps/squirrel-web-uniapp" },
+    { "name": "front-end:squirrel-admin", "path": "./apps/squirrel-web-admin" },
+    // back-end
+    { "name": "back-end:squirrel-server", "path": "./apps/squirrel-server" },
+    // tests
+    { "name": " ", "path": "./tests" },
+    // monorepo
+    { "name": "monorepo-documents", "path": "./documents" },
+    { "name": "monorepo-libs", "path": "./libs" },
+    { "name": "monorepo-packages", "path": "./packages" },
+    // root
+    { "name": "root", "path": "." }
+  ],
+  "settings": {
+    "editor.fontSize": 13,
+    // 通用命令映射
+    "path-intellisense.mappings": {
+      "@": "${workspaceFolder}/src",
+      "@root": "${workspaceFolder}"
+    },
+    "editor.fontFamily": "FiraCode-Regular, LXGW WenKai, JetBrains Mono, Source Code Pro, Fira Code,  Menlo, Monaco, Courier New, monospace",
+    "editor.lineHeight": 1.5,
+    "terminal.integrated.fontFamily": "Source Code Pro, Hack Nerd Font, Monaco, monospace",
+    "terminal.integrated.fontSize": 13,
+    "editor.fontLigatures": true,
+    "editor.formatOnSave": true,
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "files.associations": {
+      "manifest.json": "jsonc",
+      "pages.json": "jsonc"
+    }
+  },
+  "extensions": {
+    "recommendations": ["antfu.vite", "antfu.iconify", "antfu.unocss", "vue.volar", "dbaeumer.vscode-eslint", "editorConfig.editorConfig", "uni-helper.uni-helper-vscode"]
+  }
+}

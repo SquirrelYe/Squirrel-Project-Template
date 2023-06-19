@@ -1,0 +1,282 @@
+var touchstart = function (event, ownerInstance) {
+  var ins = event.instance;
+  var st = ins.getState();
+  if (st.disable) return; // disable的逻辑
+  if (!st.size) return;
+  var touches = event.touches;
+  if (touches && touches.length > 1) return;
+  st.isMoving = true;
+  touches = event.touches ? event.touches[0] : {};
+  if (!touches || (touches.pageX === undefined && touches.pageY === undefined)) {
+    touches = {
+      pageX: event.pageX,
+      pageY: event.pageY
+    };
+  }
+  st.startX = touches.pageX;
+  st.startY = touches.pageY;
+  st.firstAngle = 0;
+};
+var touchmove = function (event, ownerInstance) {
+  var ins = event.instance;
+  var st = ins.getState();
+  if (!st.size || !st.isMoving) return;
+  // console.log('touchmove', JSON.stringify(event))
+  var touches = event.touches ? event.touches[0] : {};
+  if (!touches || (touches.pageX === undefined && touches.pageY === undefined)) {
+    touches = {
+      pageX: event.pageX,
+      pageY: event.pageY
+    };
+  }
+  var pagex = touches.pageX - st.startX;
+  var pagey = touches.pageY - st.startY;
+  // 左侧45度角为界限，大于45度则允许水平滑动
+  if (st.firstAngle === 0) {
+    st.firstAngle = Math.abs(pagex) - Math.abs(pagey);
+  }
+  if (st.firstAngle < 0) {
+    return;
+  }
+  var movex = pagex > 0 ? Math.min(st.max, pagex) : Math.max(-st.max, pagex);
+  // 往回滑动的情况
+  if (st.out) {
+    // 已经是划出来了，还要往左滑动，忽略
+    if (movex < 0) return;
+    ins.setStyle({
+      transition: '',
+      transform: 'translateX(' + (st.transformx + movex) + 'px)'
+    });
+    var btns = ownerInstance.selectAllComponents('.tui_wxs_btn');
+    var transformTotal = 0;
+    var len = btns.length;
+    var i = len - 1;
+    for (; i >= 0; i--) {
+      var transform = (st.size.buttons[i].width / st.max) * movex;
+      var transformx = st.size.buttons[i].max - Math.min(st.size.buttons[i].max, transform + transformTotal);
+      btns[i].setStyle({
+        transition: '',
+        transform: 'translateX(' + -transformx + 'px)'
+      });
+      transformTotal += transform;
+    }
+    return false;
+  }
+  if (movex > 0) movex = 0;
+  ins.setStyle({
+    transition: '',
+    transform: 'translateX(' + movex + 'px)'
+  });
+  st.transformx = movex;
+  var btns = ownerInstance.selectAllComponents('.tui_wxs_btn');
+  var transformTotal = 0;
+  var len = btns.length;
+  var i = len - 1;
+  for (; i >= 0; i--) {
+    var transform = (st.size.buttons[i].width / st.max) * movex;
+    var transformx = Math.max(-st.size.buttons[i].max, transform + transformTotal);
+    btns[i].setStyle({
+      transition: '',
+      transform: 'translateX(' + transformx + 'px)'
+    });
+    st.size.buttons[i].transformx = transformx;
+    transformTotal += transform;
+  }
+  return false; // 禁止垂直方向的滑动
+};
+var touchend = function (event, ownerInstance) {
+  var ins = event.instance;
+  var st = ins.getState();
+  if (!st.size || !st.isMoving) return;
+  // 左侧45度角为界限，大于45度则允许水平滑动
+  if (st.firstAngle < 0) {
+    return;
+  }
+  var duration = st.duration / 1000;
+  st.isMoving = false;
+  // console.log('touchend', JSON.stringify(event))
+  var btns = ownerInstance.selectAllComponents('.tui_wxs_btn');
+  var len = btns.length;
+  var i = len - 1;
+  // console.log('len size', len)
+  var touches = event.changedTouches ? event.changedTouches[0] : {};
+  if (!touches || (touches.pageX === undefined && touches.pageY === undefined)) {
+    touches = {
+      pageX: event.pageX,
+      pageY: event.pageY
+    };
+  }
+  if (Math.abs(touches.pageX - st.startX) < st.throttle || touches.pageX - st.startX > 0) {
+    // 方向也要控制
+    st.out = false;
+    ins.setStyle({
+      transition: 'transform ' + duration + 's',
+      transform: 'translate3d(0px, 0, 0)'
+    });
+    for (; i >= 0; i--) {
+      btns[i].setStyle({
+        transition: 'transform ' + duration + 's',
+        transform: 'translate3d(0px, 0, 0)'
+      });
+    }
+    ownerInstance.callMethod('hideButton');
+    return;
+  }
+  showButtons(ins, ownerInstance, duration);
+  ownerInstance.callMethod('showButton');
+};
+var REBOUNCE_TIME = 0.2;
+var showButtons = function (ins, ownerInstance, withDuration) {
+  if (!ins || !ins.getState) return;
+  if (withDuration > 100) {
+    withDuration = withDuration / 1000;
+  }
+  var st = ins.getState();
+  if (!st.size) return;
+  var rebounceTime = st.rebounce ? REBOUNCE_TIME : 0;
+  var movex = st.max;
+  st.out = true;
+  var btns = ownerInstance.selectAllComponents('.tui_wxs_btn') || [];
+  var rebounce = st.rebounce || 0;
+  var len = btns.length;
+  var i = len - 1;
+  ins.setStyle({
+    transition: 'transform ' + withDuration + 's',
+    transform: 'translate3d(' + (-movex - rebounce) + 'px, 0, 0)'
+  });
+  st.transformx = -movex;
+  var transformTotal = 0;
+  if (!btns || btns.length === 0) return;
+  for (; i >= 0; i--) {
+    var transform = (st.size.buttons[i].width / st.max) * movex;
+    var transformx = -(transform + transformTotal);
+    btns[i].setStyle({
+      transition: 'transform ' + (withDuration ? withDuration + rebounceTime : withDuration) + 's',
+      transform: 'translate3d(' + transformx + 'px, 0, 0)'
+    });
+    st.size.buttons[i].transformx = transformx;
+    transformTotal += transform;
+  }
+};
+var innerHideButton = function (ownerInstance) {
+  var ins = ownerInstance.selectComponent('.tui_wxs_left');
+  if (!ins) return;
+  var st = ins.getState();
+  if (!st.size) return;
+  var duration = st.duration ? st.duration / 1000 : 0;
+  var btns = ownerInstance.selectAllComponents('.tui_wxs_btn');
+  var len = btns.length;
+  var i = len - 1;
+  ins.setStyle({
+    transition: 'transform ' + duration + 's',
+    transform: 'translate3d(0px, 0, 0)'
+  });
+  st.transformx = 0;
+  for (; i >= 0; i--) {
+    btns[i].setStyle({
+      transition: 'transform ' + duration + 's',
+      transform: 'translate3d(0px, 0, 0)'
+    });
+    st.size.buttons[i].transformx = 0;
+  }
+  st.out = false;
+};
+var hideButton = function (event, ownerInstance) {
+  innerHideButton(ownerInstance);
+  ownerInstance.callMethod('buttonTapByWxs', {
+    index: event.currentTarget.dataset.index,
+    data: event.currentTarget.dataset.data
+  });
+  return false;
+};
+var sizeReady = function (newVal, oldVal, ownerInstance, ins) {
+  var st = ins.getState();
+  // console.log(newVal)
+  st.disable = newVal && newVal.disable;
+  st.duration = newVal && newVal.duration;
+  if (newVal && newVal.button && newVal.buttons) {
+    st.size = newVal;
+    st.transformx = 0;
+    // var min = newVal.button.width
+    var max = 0;
+    var len = newVal.buttons.length;
+    var i = newVal.buttons.length - 1;
+    var total = 0;
+    for (; i >= 0; i--) {
+      max += newVal.buttons[i].width;
+      // if (min > newVal.buttons[i]) {
+      //     min = newVal.buttons[i].width
+      // }
+      total += newVal.buttons[i].width;
+      newVal.buttons[i].max = total;
+      newVal.buttons[i].transformx = 0;
+    }
+    st.throttle = st.size.throttle || 40; // 固定值
+    st.rebounce = st.size.rebounce;
+    st.max = max;
+    var twr = ownerInstance.selectComponent('.tui_wxs_right');
+    if (twr) {
+      twr.setStyle({
+        'line-height': newVal.button.height + 'px',
+        left: newVal.button.width + 'px',
+        width: max + 'px'
+      });
+    }
+    // console.log('st size', JSON.stringify(newVal))
+    if (!st.size.disable && st.size.show) {
+      showButtons(ins, ownerInstance);
+    }
+  }
+};
+var disableChange = function (newVal, oldVal, ownerInstance, ins) {
+  if (!ins || !ins.getState) return;
+  var st = ins.getState();
+  st.disable = newVal;
+};
+var durationChange = function (newVal, oldVal, ownerInstance, ins) {
+  if (!ins || !ins.getState) return;
+  var st = ins.getState();
+  st.duration = newVal || 350;
+};
+var showChange = function (newVal, oldVal, ownerInstance, ins) {
+  if (!ins || !ins.getState) return;
+  var st = ins.getState();
+  st.show = newVal;
+  if (st.disable) return;
+  if (st.show) {
+    showButtons(ins, ownerInstance, st.duration);
+  } else {
+    innerHideButton(ownerInstance);
+  }
+};
+var rebounceChange = function (newVal, oldVal, ownerInstance, ins) {
+  if (!ins || !ins.getState) return;
+  var st = ins.getState();
+  // console.log('rebounce', st.rebounce)
+  st.rebounce = newVal;
+};
+var transitionEnd = function (event, ownerInstance) {
+  // console.log('transition')
+  var ins = event.instance;
+  var st = ins.getState();
+  // 回弹效果
+  if (st.out && st.rebounce) {
+    // console.log('transition rebounce', st.rebounce)
+    ins.setStyle({
+      transition: 'transform ' + REBOUNCE_TIME + 's',
+      transform: 'translate3d(' + -st.max + 'px, 0, 0)'
+    });
+  }
+};
+module.exports = {
+  touchstart: touchstart,
+  touchmove: touchmove,
+  touchend: touchend,
+  hideButton: hideButton,
+  sizeReady: sizeReady,
+  disableChange: disableChange,
+  durationChange: durationChange,
+  showChange: showChange,
+  rebounceChange: rebounceChange,
+  transitionEnd: transitionEnd
+};

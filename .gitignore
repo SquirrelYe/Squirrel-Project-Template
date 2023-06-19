@@ -1,0 +1,30 @@
+# 编译器配置文件
+.idea/
+
+# 一些无关目录
+_doc/gselocal
+node_modules/
+
+# 测试目录
+front-end-test/
+others/
+**/pnpm-lock.yaml
+**/yarn.lock
+
+# 项目无关文件
+front-end/yarn.lock
+*.lock
+**/*/*.lock
+**/*.zip
+**/nohup.out
+nohup.out
+**/*/.VSCodeCounter/**/*
+**/.DS_Store
+**/*.log
+.DS_Store
+.pnpm-debug.log
+
+# 项目Libs下的文件
+dist
+.turbo
+.umi-production

@@ -1,0 +1,98 @@
+var sliderWidth = 200;
+var blockWidth = 32;
+var errorRange = 5;
+var angle = 0;
+var disabled = false;
+var type = 1;
+
+function bool(str) {
+  return str === 'true' || str == true ? true : false;
+}
+
+function touchstart(e, ins) {
+  var state = e.instance.getState();
+  var touch = e.touches[0] || e.changedTouches[0];
+  var dataset = e.instance.getDataset();
+  state.startX = touch.pageX;
+  sliderWidth = +dataset.width;
+  blockWidth = +dataset.height;
+  errorRange = +dataset.errorrange;
+  angle = +dataset.angle;
+  type = +dataset.type;
+  disabled = bool(dataset.disabled);
+}
+
+function styleChange(left, deg, ins) {
+  if (!ins) return;
+  var block = ins.selectComponent('.tui-slider_block');
+  var image = ins.selectComponent('.tui-verify__image');
+  if (!block || !image) return;
+  if (left === 0) {
+    block.addClass('tui-block__trans');
+    image.addClass('tui-block__trans');
+  } else {
+    block.removeClass('tui-block__trans');
+    image.removeClass('tui-block__trans');
+  }
+  block.setStyle({
+    transform: 'translate3d(' + left + 'px,0,0)'
+  });
+  image.setStyle({
+    transform: 'rotate(' + deg + 'deg)'
+  });
+}
+
+function touchmove(e, ins) {
+  if (disabled) return;
+  var state = e.instance.getState();
+  var touch = e.touches[0] || e.changedTouches[0];
+  var pageX = touch.pageX;
+  var left = pageX - state.startX + (state.lastLeft || 0);
+  left = left < 0 ? 0 : left;
+  var width = sliderWidth - blockWidth;
+  left = left >= width ? width : left;
+  state.startX = pageX;
+  state.lastLeft = left;
+  var deg = (360 / width) * left + angle;
+  styleChange(left, deg, ins);
+}
+
+function touchend(e, ins) {
+  if (disabled) return;
+  var state = e.instance.getState();
+  var left = sliderWidth - blockWidth;
+  var deg = (360 / left) * state.lastLeft + angle;
+  if (type == 1) {
+    if (Math.abs(deg - 360) <= errorRange || Math.abs(deg) <= errorRange) {
+      styleChange(state.lastLeft, deg, ins);
+      ins.callMethod('success');
+    } else {
+      state.startX = 0;
+      state.lastLeft = 0;
+      styleChange(0, angle, ins);
+      ins.callMethod('error');
+    }
+  } else {
+    ins.callMethod('result', {
+      angle: deg - angle
+    });
+  }
+}
+
+function slidereset(reset, oldreset, owner, ins) {
+  var state = ins.getState();
+  var dataset = ins.getDataset();
+  if (reset > 0) {
+    state.startX = 0;
+    state.lastLeft = 0;
+    var angle = +dataset.angle;
+    styleChange(0, angle, owner);
+  }
+}
+
+module.exports = {
+  touchstart: touchstart,
+  touchmove: touchmove,
+  touchend: touchend,
+  slidereset: slidereset
+};

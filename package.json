@@ -1,0 +1,51 @@
+{
+  "name": "@squirreljs/squirrel-project-template",
+  "version": "0.0.0",
+  "description": "",
+  "author": "SquirrelYe <will@aesen.cc>",
+  "private": true,
+  "scripts": {
+    "preinstall": "node scripts/preinstall.js",
+    "prepare": "husky install ",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "code scrips": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Code Scripts xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "format": "prettier --write libs scripts packages",
+    "publish scrips": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Publish Scripts xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "changeset-add": "pnpm changeset",
+    "version-packages": "pnpm changeset version"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SquirrelYe/Squirrel-Project-Template.git"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.26.1",
+    "@types/node": "^18",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "typescript": "^5.0.4",
+    "prettier": "^2.4.1",
+    "husky": "^8.0.3",
+    "microbundle": "^0.15.1",
+    "rimraf": "^5.0.1",
+    "turbo": "^ 1.9.9"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "{packages,libs,scripts}/**/*.{js,vue,ts,jsx,tsx,json}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
+  }
+}

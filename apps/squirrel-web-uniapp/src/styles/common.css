@@ -1,0 +1,6 @@
+/* 通用底部安全区域封装，用于解决底部固定元素被遮挡问题 */
+.chat-block-safe-area-inset-bottom {
+  height: env(safe-area-inset-bottom);
+  width: 100%;
+  background-color: #fff;
+}
