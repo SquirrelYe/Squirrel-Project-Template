@@ -27,7 +27,7 @@ export interface UploadFileOption {
 }
 
 export interface UploadFileResult {
-  fileID: string;
-  statusCode: number;
-  errMsg: string;
+  FileID: string;
+  FilePath: string;
+  ErrMsg: string;
 }

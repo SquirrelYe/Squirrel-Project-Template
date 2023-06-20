@@ -219,13 +219,13 @@ const handleAsyncOperation = async (type: string, args?: any) => {
       const filePath = args.detail.avatarUrl;
 
       // 1. 上传文件
-      const cloudPath = '/' + CommonConfiguration.requestContainerFileUserAvatarUploadDirectory + '/' + new Date().getTime() + '-' + filePath.split('/').pop();
+      const cloudPath = '/' + CommonConfiguration.WeiXinCloudBaseFileUserAvatarUploadDirectory + '/' + new Date().getTime() + '-' + filePath.split('/').pop();
       const [uploaderr, uploadres] = await new RequestUtils().uploadFile({ cloudPath: cloudPath, filePath: filePath });
       if (uploaderr) return;
 
       // 2. 保存数据库
-      const { fileID } = uploadres;
-      userInfo.value.avatar = fileID;
+      const { FilePath, FileID } = uploadres;
+      userInfo.value.avatar = FileID;
       await handleAsyncOperation('setting:edit:submit');
       break;
     }

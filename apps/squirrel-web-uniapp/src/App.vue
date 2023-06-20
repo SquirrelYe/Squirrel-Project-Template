@@ -16,15 +16,16 @@ onLaunch(async () => {
 
   console.log('App Launch');
 
-  await systemUtils.checkUpdate(); // 检查更新
-  await systemUtils.reportDeviceInfo(); // 获取系统信息，数据上报数据分析
-  await systemUtils.getSystemConfiguration(); // 拉取全局系统配置信息
-
   // 判断用户是否登录
   const userIsLogin = profileStore.userIsLogin;
   if (!userIsLogin) {
     uni.redirectTo({ url: '/pages/login/login' });
   }
+
+  await systemUtils.checkUpdate(); // 检查更新
+  await systemUtils.reportDeviceInfo(); // 获取系统信息，数据上报数据分析
+  await systemUtils.getSystemConfiguration(); // 拉取全局系统配置信息
+  await systemUtils.validateUserLoginStatus(); // 验证用户登录状态
 });
 
 onShow(() => {});

@@ -1,5 +1,5 @@
 import { APIConfiguration } from '@/config/api.config';
-import { ConstantConfiguration } from '@/config/constant.config';
+import { CommonConfiguration } from '@/config/common.config';
 import { RequestUtils } from '@/utils/request';
 
 import { useSystemStore } from '@/stores/system';
@@ -46,8 +46,8 @@ class SystemUtils {
     const res = uni.getSystemInfoSync();
     const reqSysConfigPath = APIConfiguration.ApiSystemReportDeviceInfo;
     const reqSysConfigObj = {
-      Type: ConstantConfiguration.SystemReportTypeDevice,
-      Source: ConstantConfiguration.SystemReportSourceMiniProgram,
+      Type: CommonConfiguration.SystemReportTypeDevice,
+      Source: CommonConfiguration.SystemReportSourceMiniProgram,
       Content: res
     };
     const [deviceerr, deviceres] = await requestUtils.request({ path: reqSysConfigPath, data: reqSysConfigObj, header: {} });
@@ -60,7 +60,7 @@ class SystemUtils {
   // 获取系统配置
   public async getSystemConfiguration() {
     const reqSysConfigPath = APIConfiguration.ApiSystemGetConfiguration;
-    const reqSysConfigObj = { Type: ConstantConfiguration.SystemConfigurationTypeMiniProgram };
+    const reqSysConfigObj = { Type: CommonConfiguration.SystemConfigurationTypeMiniProgram };
     const [sysConfigerr, sysConfigres] = await requestUtils.request({ path: reqSysConfigPath, data: reqSysConfigObj, header: {} });
     if (sysConfigerr) {
       uni.showToast({ title: '系统配置信息拉取失败', icon: 'none' });
@@ -69,6 +69,21 @@ class SystemUtils {
 
     const systemStore = useSystemStore();
     systemStore.setSysMiniProgramConfig(sysConfigres.Data);
+  }
+
+  // 验证用户登录态
+  public async validateUserLoginStatus() {
+    const profileStore = useProfileStore();
+    const reqValidatePath = APIConfiguration.ApiAuthValidate;
+    const reqValidateObj = {};
+
+    const [validateerr, validateres] = await requestUtils.request({ path: reqValidatePath, data: reqValidateObj, header: {} });
+    if (validateerr) {
+      profileStore.clearUser();
+      uni.showToast({ title: '用户登录态验证失败', icon: 'none' });
+      uni.redirectTo({ url: '/pages/login/login' });
+      return;
+    }
   }
 }
 

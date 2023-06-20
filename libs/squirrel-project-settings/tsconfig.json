@@ -10,10 +10,12 @@
     "baseUrl": "./",
     "skipLibCheck": true,
     "strictNullChecks": false,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "paths": {}
+    "paths": {
+      "@/*": ["src/*"]
+    }
   }
 }

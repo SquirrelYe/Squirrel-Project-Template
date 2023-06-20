@@ -1,5 +1,6 @@
 import { CommonConfiguration } from '@/config/common.config';
 import { Utils } from '@/utils/index';
+import { COSUtils } from '@/utils/cos';
 import { useProfileStore } from '@/stores/profile';
 
 import type { RequestOption, UploadFileOption, RequestResult, UploadFileResult } from '@/types/Request.type';
@@ -22,10 +23,8 @@ class RequestUtils {
     // 组装请求头
     const tokenHeader = { Authorization: `Bearer ${userStore.userToken}` };
     Object.assign(header, tokenHeader);
-    const devHeader = CommonConfiguration.requestSimulationHttpHeader;
-    if (CommonConfiguration.environment == 'development') {
-      Object.assign(header, devHeader);
-    }
+    const devHeader = CommonConfiguration.RequestHttpDevelopmentSimulationHttpHeader;
+    if (CommonConfiguration.environment == 'development') Object.assign(header, devHeader);
 
     // 拦截Body参数
     const body = {
@@ -38,6 +37,10 @@ class RequestUtils {
     // 判断是否延迟展示加载中
     if (showLoading) {
       if (this.delayed) clearTimeout(this.delayed);
+      if (this.loadding) {
+        this.loadding = false;
+        uni.hideLoading();
+      }
       this.delayed = setTimeout(() => {
         this.loadding = true;
         Utils.showLoading('加载中，请稍后...');
@@ -48,23 +51,15 @@ class RequestUtils {
 
     // 请求发送，此处区分使用云托管还是普通请求
     let res: RequestResult, err;
-    if (CommonConfiguration.requestSenderType == 'container') [err, res] = await this.requestContainer(path, method, body, header);
-    else if (CommonConfiguration.requestSenderType == 'http') [err, res] = await this.requestHttp(path, method, body, header);
-    else return [new Error('requestSenderType 配置错误'), null];
+    if (CommonConfiguration.environment == 'development') [err, res] = await this.requestHttp(path, method, body, header);
+    else [err, res] = await this.requestContainer(path, method, body, header);
 
     console.log(`# request end: ${path} #`, res, err);
-
-    // 判断是否延迟展示加载中
-    if (showLoading) {
-      clearTimeout(this.delayed);
-      this.loadding = false;
-      uni.hideLoading();
-    }
 
     // 请求结果处理
     const statusCode = res.statusCode;
     const responseCode = res.data.Code;
-    if (statusCode == CommonConfiguration.requestSuccessCode && responseCode === 0) {
+    if (statusCode == CommonConfiguration.RequestSuccessCode && responseCode === 0) {
       return [err, res.data];
     } else {
       const errMsg = res.data.Message || '请求失败' + '，错误码：' + statusCode;
@@ -80,6 +75,10 @@ class RequestUtils {
     // 判断是否延迟展示加载中
     if (showLoading) {
       if (this.delayed) clearTimeout(this.delayed);
+      if (this.loadding) {
+        this.loadding = false;
+        uni.hideLoading();
+      }
       this.delayed = setTimeout(() => {
         this.loadding = true;
         Utils.showLoading('上传中，请稍后...');
@@ -90,24 +89,16 @@ class RequestUtils {
 
     // 请求发送，此处区分使用云托管还是普通请求
     let res: UploadFileResult, err;
-    if (CommonConfiguration.requestUploadFileType == 'container') [err, res] = await this.uploadFileContainer(filePath, cloudPath);
-    else if (CommonConfiguration.requestUploadFileType == 'http') [err, res] = await this.uploadFileHttp(filePath, cloudPath);
-    else return [new Error('requestUploadFileType 配置错误'), null];
+    if (CommonConfiguration.environment == 'development') [err, res] = await this.uploadFileContainer(filePath, cloudPath);
+    else [err, res] = await this.uploadFileHttp(filePath, cloudPath);
 
     console.log(`# upload end: #`, res, err);
-
-    // 判断是否延迟展示加载中
-    if (showLoading) {
-      clearTimeout(this.delayed);
-      this.loadding = false;
-      uni.hideLoading();
-    }
 
     // 请求结果处理
     if (!err) {
       return [err, res];
     } else {
-      Utils.showToast(res.errMsg, 2 * 1000, 'none');
+      Utils.showToast(res.ErrMsg, 2 * 1000, 'none');
       return [err, null];
     }
   };
@@ -119,13 +110,13 @@ class RequestUtils {
       wx.cloud.init();
       res = await wx.cloud.callContainer({
         config: {
-          env: CommonConfiguration.requestContainerConfigEnvironment
+          env: CommonConfiguration.WeiXinCloudBaseEnvironment
         },
         path: path,
         method: method || 'POST',
         data: data,
         header: {
-          'X-WX-SERVICE': CommonConfiguration.requestContainerConfigService,
+          'X-WX-SERVICE': CommonConfiguration.WeiXinCloudBaseServiceName,
           ...header
         }
       });
@@ -139,13 +130,13 @@ class RequestUtils {
   private requestHttp = async (path: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', data: Record<string, any>, header?: Record<string, any>) => {
     let res: any, err;
     try {
-      const baseUrl = CommonConfiguration.environment == 'development' ? CommonConfiguration.requestHttpDevelopmentBaseUrl : CommonConfiguration.requestHttpReleaseBaseUrl;
+      const baseUrl = CommonConfiguration.environment == 'development' ? CommonConfiguration.RequestHttpDevelopmentBaseUrl : CommonConfiguration.WeiXinCloudBaseBaseUrl;
       res = await uni.request({
         url: baseUrl + path, // 举例：http://localhost:3000 + /api/user/login
         method: method,
         data: data,
         header: header || {},
-        timeout: CommonConfiguration.requestTimeout
+        timeout: CommonConfiguration.RequestTimeout
       });
     } catch (error) {
       err = error;
@@ -155,19 +146,21 @@ class RequestUtils {
 
   // 上传文件（云托管）
   private uploadFileContainer = async (filePath: string, cloudPath: string) => {
-    let res, err;
+    let res: any, err;
     try {
       wx.cloud.init();
-      const workDirectory = CommonConfiguration.requestContainerFileWorkDirectory;
-      console.log('workDirectory', filePath, workDirectory + cloudPath);
+      const workDirectory = CommonConfiguration.WeiXinCloudBaseFileWorkDirectory;
+      const cosCloudPath = workDirectory + cloudPath;
 
-      res = await wx.cloud.uploadFile({
+      const resp = await wx.cloud.uploadFile({
         filePath: filePath,
-        cloudPath: workDirectory + cloudPath, // 举例：/chat_svr + /images/2021/06/05/xxx.jpg
-        config: {
-          env: CommonConfiguration.requestContainerConfigEnvironment
-        }
+        cloudPath: cosCloudPath,
+        config: { env: CommonConfiguration.WeiXinCloudBaseEnvironment }
       });
+
+      // 格式化返回值
+      const { FileID, FilePath } = COSUtils.formatFileDownloadUrl(cosCloudPath);
+      res = { FileID: FileID, FilePath: FilePath, ErrMsg: resp.errMsg, StatusCode: resp.statusCode };
     } catch (error) {
       err = error;
     }
@@ -176,12 +169,21 @@ class RequestUtils {
 
   // 上传文件（普通）
   private uploadFileHttp = async (filePath: string, cloudPath: string) => {
-    console.log('暂不支持', filePath, cloudPath);
-    // 1. 获取上传凭证 uni.request + 云函数
-    // 2. 上传文件 uni.uploadFile
-    // TODO: 此处的逻辑有些复杂，暂时不支持。
-    const err = new Error('暂不支持');
-    const res: any = null;
+    let res, err;
+    try {
+      const workDirectory = CommonConfiguration.WeiXinCloudBaseFileWorkDirectory;
+      const cosCloudPath = workDirectory + cloudPath;
+
+      const cosClient = COSUtils.getCOSInstance();
+      [err, res] = await COSUtils.uploadFile(cosClient, filePath, cosCloudPath);
+
+      if (!err && res.statusCode === 200) {
+        const { FileID, FilePath } = COSUtils.formatFileDownloadUrl(cosCloudPath);
+        res = { FileID: FileID, FilePath: FilePath, ErrMsg: res.errMsg, StatusCode: res.statusCode };
+      } else err = err || new Error('上传失败');
+    } catch (error) {
+      err = error;
+    }
     return [err, res];
   };
 }

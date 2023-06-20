@@ -20,10 +20,4 @@ export class CommonConfiguration {
   // 鉴权配置
   public static readonly AUTH_JWT_SECRET = 'f1896f88-f2ad-4adf-a6f3-59a256061ea9';
   public static readonly AUTH_JWT_EXPIRESIN = '30d';
-
-  // 微信小程序配置
-  public static readonly WEICHAT_MINI_PROGRAM_CONFIGURATION = {};
-
-  // 管理系统配置
-  public static readonly ADMIN_SYSTEM_CONFIGURATION = {};
 }
