@@ -19,14 +19,7 @@ const Proxy: Record<string, any> = {
   },
   test: {
     '/api/': {
-      target: 'https://proapi.azurewebsites.net',
-      changeOrigin: true,
-      pathRewrite: { '^': '' }
-    }
-  },
-  pre: {
-    '/api/': {
-      target: 'your pre url',
+      target: 'http://localhost:3000',
       changeOrigin: true,
       pathRewrite: { '^': '' }
     }
