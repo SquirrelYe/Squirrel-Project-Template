@@ -11,6 +11,13 @@ class ServerConfiguration extends BaseConfiguration {
     this.configurationName = 'ServerConfiguration';
     this.configurationDescription = '后台项目 NestJS 配置清单';
   }
+
+  // 运行设置
+  public static readonly ServerBootstrapPort: number = 3000; // 服务端口
+
+  // 鉴权配置
+  public static readonly AuthenticationJwtSecret: string = 'f1896f88-f2ad-4adf-a6f3-59a256061ea9'; // 鉴权 JWT 密钥
+  public static readonly AuthenticationJwtExpiresIn: string = '7d'; // 鉴权 JWT 过期时间
 }
 
 export { ServerConfiguration };

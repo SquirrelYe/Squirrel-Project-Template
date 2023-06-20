@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 const COS = require('cos-nodejs-sdk-v5');
 const Axios = require('axios');
 

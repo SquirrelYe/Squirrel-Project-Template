@@ -23,7 +23,7 @@ RUN npm run build
 RUN npm prune --production
 
 # 设置容器暴露的端口号（这应与你的应用程序监听的端口号相匹配）
-EXPOSE 3001
+EXPOSE 3000
 
 # 启动你的服务器
 CMD ["npm", "run", "start:prod"]

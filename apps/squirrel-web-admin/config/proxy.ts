@@ -6,7 +6,7 @@
 const Proxy: Record<string, any> = {
   dev: {
     '/api/': {
-      target: 'http://localhost:3001',
+      target: 'http://localhost:3000',
       changeOrigin: true,
       pathRewrite: { '^': '' },
       logLevel: 'info',

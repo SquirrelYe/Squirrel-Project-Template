@@ -33,10 +33,10 @@ class BaseConfiguration {
 
   // 云托管 数据库配置清单
   public static readonly WeiXinCloudBaseDatabaseDialect: string = 'mysql'; // 云托管 数据库方言
-  public static readonly WeiXinCloudBaseDatabaseHost: string = 'xxxx.sql.tencentcdb.com'; // 云托管 数据库主机
+  public static readonly WeiXinCloudBaseDatabaseHost: string = '127.0.0.1'; // 云托管 数据库主机
   public static readonly WeiXinCloudBaseDatabasePort: number = 3306; // 云托管 数据库端口
-  public static readonly WeiXinCloudBaseDatabaseUsername: string = 'root'; // 云托管 数据库用户名
-  public static readonly WeiXinCloudBaseDatabasePassword: string = 'xxxx'; // 云托管 数据库密码
+  public static readonly WeiXinCloudBaseDatabaseUsername: string = 'dbuser'; // 云托管 数据库用户名
+  public static readonly WeiXinCloudBaseDatabasePassword: string = 'dbpassword'; // 云托管 数据库密码
   public static readonly WeiXinCloudBaseDatabaseDatabase: string = 'xxxx-development'; // 云托管 数据库名称
 }
 

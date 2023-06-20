@@ -16,7 +16,7 @@ class UniappConfiguration extends BaseConfiguration {
   public static readonly RequestTimeout: number = 10 * 1000;
   public static readonly RequestSuccessCode: number = 200;
   public static readonly RequestSuccessResponseCode: number = 0;
-  public static readonly RequestHttpDevelopmentBaseUrl: string = 'http://127.0.0.1:3001';
+  public static readonly RequestHttpDevelopmentBaseUrl: string = 'http://127.0.0.1:3000';
   public static readonly RequestHttpDevelopmentSimulationHttpHeader: Record<string, string> = { 'x-wx-appid': 'xxxx', 'x-wx-openid': 'xxxx' }; // 开发环境下模拟请求头
 }
 

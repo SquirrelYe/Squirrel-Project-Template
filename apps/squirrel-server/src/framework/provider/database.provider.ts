@@ -21,12 +21,12 @@ export const databaseProviders = [
     provide: CommonConstant.IOC_PROVIDER_SEQUELIZE,
     useFactory: async () => {
       const sequelize = new Sequelize({
-        dialect: CommonConfiguration.DATABASE_DIALECT,
-        host: CommonConfiguration.DATABASE_HOST,
-        port: CommonConfiguration.DATABASE_PORT,
-        username: CommonConfiguration.DATABASE_USERNAME,
-        password: CommonConfiguration.DATABASE_PASSWORD,
-        database: CommonConfiguration.DATABASE_DATABASE,
+        dialect: CommonConfiguration.WeiXinCloudBaseDatabaseDialect as any,
+        host: CommonConfiguration.WeiXinCloudBaseDatabaseHost,
+        port: CommonConfiguration.WeiXinCloudBaseDatabasePort,
+        username: CommonConfiguration.WeiXinCloudBaseDatabaseUsername,
+        password: CommonConfiguration.WeiXinCloudBaseDatabasePassword,
+        database: CommonConfiguration.WeiXinCloudBaseDatabaseDatabase,
         logging: (sql: string) => logger.log(`[Sequelize SQL] ${sql}`),
         define: {
           timestamps: true,

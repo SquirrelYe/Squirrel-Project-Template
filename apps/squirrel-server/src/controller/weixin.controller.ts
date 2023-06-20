@@ -43,9 +43,9 @@ export class WeiXinController {
   @Post('/getaccesstoken')
   @HttpCode(HttpStatus.OK)
   async getAccessToken() {
-    const Secret = CommonConfiguration.WEIXIN_APP_SECRET;
-    const AppID = CommonConfiguration.WEIXIN_APP_ID;
-    const GrantType = CommonConfiguration.WEIXIN_GRANT_TYPE;
+    const AppID = CommonConfiguration.WeiXinMiniProgramAppId;
+    const Secret = CommonConfiguration.WeiXinMiniProgramAppSecret;
+    const GrantType = CommonConfiguration.WeiXinMiniProgramGrantType;
     const QueryString = `?grant_type=${GrantType}&appid=${AppID}&secret=${Secret}`;
     const [error, result] = await this.weiXinService.getWeiXinOpenAPIResult('http://api.weixin.qq.com/cgi-bin/token' + QueryString);
     if (error) return R.error(-1, error);

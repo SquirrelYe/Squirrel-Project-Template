@@ -18,12 +18,11 @@ export class AuthService {
   // 生成JWT Token
   async generateToken(openid: string, roles: Role[] = [Role.User]) {
     const payload = { openid: openid, roles, time: new Date().toISOString() };
-    const token = sign(payload, CommonConfiguration.AUTH_JWT_SECRET, { expiresIn: CommonConfiguration.AUTH_JWT_EXPIRESIN });
+    const token = sign(payload, CommonConfiguration.AuthenticationJwtSecret, { expiresIn: CommonConfiguration.AuthenticationJwtExpiresIn });
     return [null, token];
   }
 
-  // 校验JWT Token
-  // 格式举例：Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+  // 校验JWT Token，Token 格式举例：Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
   async verifyToken(token: string): Promise<[Error, any]> {
     const tokenArr = (token || '').split(' ');
     if (tokenArr.length !== 2) return [new Error('Token 格式错误'), null];
@@ -33,7 +32,7 @@ export class AuthService {
     if (tokenType !== 'Bearer') return [new Error('Token 格式错误'), null];
 
     try {
-      const res = verify(tokenStr, CommonConfiguration.AUTH_JWT_SECRET);
+      const res = verify(tokenStr, CommonConfiguration.AuthenticationJwtSecret);
       return [null, res];
     } catch (error) {
       return [error, null];
