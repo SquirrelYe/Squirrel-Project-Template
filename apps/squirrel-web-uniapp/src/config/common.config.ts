@@ -1,4 +1,4 @@
-import { UniappConfiguration } from '@squirreljs/squirrel-project-settings';
+import { UniappConfiguration } from '@/config/uniapp.configuration';
 
 /**
  * @description 通用配置文件

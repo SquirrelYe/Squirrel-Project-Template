@@ -218,7 +218,7 @@ const handleAsyncOperation = async (type: string, args?: any) => {
 
       // 2. 保存数据库
       const { FilePath, FileID } = uploadres;
-      userInfo.value.avatar = FileID;
+      userInfo.value.avatar = FilePath;
       await handleAsyncOperation('setting:edit:submit');
       break;
     }

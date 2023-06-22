@@ -1,8 +1,7 @@
 import { defineManifestConfig } from '@uni-helper/vite-plugin-uni-manifest';
-import { UniappConfiguration } from '@squirreljs/squirrel-project-settings';
 
 export default defineManifestConfig({
-  name: UniappConfiguration.ProjectName,
+  name: '网评小助手',
   appid: '__UNI__EF90F57',
   description: '',
   versionName: '1.0.0',
@@ -56,7 +55,7 @@ export default defineManifestConfig({
 
   /* 小程序特有相关 */
   'mp-weixin': {
-    appid: UniappConfiguration.WeiXinMiniProgramAppId,
+    appid: 'wxb2f6eb6d4540367f',
     setting: {
       urlCheck: false
     },

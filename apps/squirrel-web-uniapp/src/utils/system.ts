@@ -96,6 +96,18 @@ class SystemUtils {
       return;
     }
   }
+
+  // 测试请求
+  public async testRequest() {
+    const reqPath = APIConfiguration.ApiTestRequest;
+    const reqObj = { Name: 'SquirrelYe' };
+    const [testerr, testres] = await requestUtils.request({ path: reqPath, method: 'POST', data: reqObj, header: {} });
+    if (testerr) {
+      uni.showToast({ title: '测试请求失败', icon: 'none' });
+      return;
+    }
+    console.log('测试请求 --->', testres);
+  }
 }
 
 export { SystemUtils };

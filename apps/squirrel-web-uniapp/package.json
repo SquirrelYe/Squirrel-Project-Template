@@ -55,7 +55,6 @@
     "@dcloudio/uni-mp-toutiao": "3.0.0-alpha-3080220230511001",
     "@dcloudio/uni-mp-weixin": "3.0.0-alpha-3080220230511001",
     "@dcloudio/uni-quickapp-webview": "3.0.0-alpha-3080220230511001",
-    "@squirreljs/squirrel-project-settings": "workspace:^",
     "@vueuse/core": "^9.13.0",
     "pinia": "2.0.36",
     "vue": "^3.3.4",

@@ -1,5 +1,4 @@
 import { defineUniPages } from '@uni-helper/vite-plugin-uni-pages';
-import { UniappConfiguration } from '@squirreljs/squirrel-project-settings';
 
 export default defineUniPages({
   tabBar: {
@@ -27,7 +26,7 @@ export default defineUniPages({
   },
   globalStyle: {
     navigationBarTextStyle: 'black',
-    navigationBarTitleText: UniappConfiguration.ProjectName,
+    navigationBarTitleText: '网评小助手',
     navigationBarBackgroundColor: '#f8f8f8',
     backgroundColor: '#f8f8f8'
   },

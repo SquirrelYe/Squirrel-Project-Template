@@ -16,6 +16,7 @@ onLaunch(async () => {
 
   console.log('App Launch');
 
+  // await systemUtils.testRequest(); // 测试请求
   await systemUtils.checkUpdate(); // 检查更新
   await systemUtils.getOpenId(); // 获取用户OpenID
   await systemUtils.reportDeviceInfo(); // 获取系统信息，数据上报数据分析
