@@ -1,0 +1,20 @@
+@HostName=http://localhost
+@Port=3000
+@Host={{HostName}}:{{Port}}
+@ContentType=application/json
+@Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcGVuaWQiOiJvVFlmYTRnRUdaOUNUZ1R3al9nVzNfYTU1U0hrIiwicm9sZXMiOlsiVXNlciJdLCJ0aW1lIjoiMjAyMy0wNi0yMlQwNzozNDo0MS41MzVaIiwiaWF0IjoxNjg3NDE5MjgxLCJleHAiOjE2ODgwMjQwODF9.IHNldZA7nqXIBqKWjn_UJ4A6KvUlpQqaHYXgGpX0xLw
+
+### 测试接口
+POST {{Host}}/api/v1/test/test HTTP/1.1
+Authorization: {{Authorization}}
+
+{}
+
+### 获取对象存储文件上传链接
+POST {{Host}}/api/v1/weixin/getCosUploadFileUrl HTTP/1.1
+Content-Type: application/json
+Authorization: {{Authorization}}
+
+{
+    "Path": "image/test.jpg"
+}

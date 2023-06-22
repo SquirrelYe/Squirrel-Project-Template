@@ -49,4 +49,14 @@ export class WeiXinService {
     const result = await axiosService.get(`https://api.weixin.qq.com/sns/jscode2session${QueryString}`);
     return [null, result];
   }
+
+  // 获取对象存储文件上传链接
+  @HandleException()
+  async getWeiXinCloudBaseStorageUploadFileUrl(Path: string, AccessToken: string): ServiceReturnType<any> {
+    const CloudBaseEnvironment = CommonConfiguration.WeiXinCloudBaseEnvironment;
+    const QueryString = `?access_token=${AccessToken}`;
+    const reqbody = { path: Path, env: CloudBaseEnvironment };
+    const result = await axiosService.post(`https://api.weixin.qq.com/tcb/uploadfile${QueryString}`, reqbody);
+    return [null, result];
+  }
 }

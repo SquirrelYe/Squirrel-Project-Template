@@ -14,7 +14,6 @@ clean:
 	-docker rm $(CONTAINER_NAME)
 
 compress:
-	pnpm run build
-	zip -r compressed-project.zip dist Dockfile
+	zip -r compressed-project.zip . -x "node_modules/*" "dist/*"
 
 all: build run

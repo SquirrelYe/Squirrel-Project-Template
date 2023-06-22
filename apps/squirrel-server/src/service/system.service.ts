@@ -1,11 +1,14 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { SystemConfigurationType } from '@squirreljs/squirrel-project-settings';
+import { SystemConfigurationType } from '@/configuration/systemconfiguration.enum';
 import { WeiXinService } from '@/service/weixin.service';
+import { Logger } from '@/util/logger';
 import { HandleException } from '@/framework/decorator/public.decorator';
 import { CommonConfiguration } from '@/configuration/common.configuration';
 import { SystemConfiguration, SystemConfigurationRepository } from '@/repository/systemconfiguration.repository';
 
 import type { ServiceReturnType } from '@/types/index';
+
+const logger = new Logger('SystemConfigurationService');
 
 /**
  * @description SystemConfigurationService 系统配置服务类，提供任务相关的配置方法
@@ -27,6 +30,10 @@ export class SystemConfigurationService {
     // 记录数据库
     const AccessToken = tokenres.access_token;
     const ExpiresIn = tokenres.expires_in;
+
+    logger.log('获取微信AccessToken返回结果信息，', tokenerr, tokenres);
+    logger.log('AccessToken', AccessToken);
+    logger.log('ExpiresIn', ExpiresIn);
 
     const configuration = new SystemConfiguration();
     configuration.Type = SystemConfigurationType.WeChatAccessToken;

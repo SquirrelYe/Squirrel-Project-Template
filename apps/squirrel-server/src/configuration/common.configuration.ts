@@ -1,4 +1,4 @@
-import { ServerConfiguration } from '@squirreljs/squirrel-project-settings';
+import { ServerConfiguration } from '@/configuration/server.configuration';
 
 /**
  * @description 公共配置类
