@@ -1,5 +1,5 @@
 {
-  "name": "@squirreljs/squirrel-project-settings",
+  "name": "@squirreljs/squirrel-lib-example",
   "version": "0.0.0",
   "license": "MIT",
   "sideEffects": false,

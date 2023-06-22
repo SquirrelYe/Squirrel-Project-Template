@@ -1,4 +1,4 @@
-import { BaseConfiguration } from '@/configuration/base.configuration';
+import { BaseConfiguration } from '@/configurations/base.configuration';
 
 /**
  * @description 管理端配置清单
