@@ -38,7 +38,7 @@ export class SystemConfigurationService {
     const configuration = new SystemConfiguration();
     configuration.Type = SystemConfigurationType.WeChatAccessToken;
     configuration.Content = AccessToken;
-    configuration.Description = `获取微信AccessToken成功，有效期${ExpiresIn}秒，过期时间${new Date(Date.now() + ExpiresIn * 1000).toLocaleString()}`;
+    configuration.Description = `获取微信AccessToken成功，有效期${ExpiresIn}秒，过期时间${new Date(Date.now() + ExpiresIn * 1000).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}`;
 
     const [err, res] = await this.systemConfigurationRepository.upsert<SystemConfiguration>(configuration);
     return [err, res];

@@ -129,10 +129,9 @@ const settingType = ref(''); // 修改数据类型
 const formUserNickname = ref(''); // 修改昵称
 const formUserPhone = ref(''); // 修改手机号
 
-onLoad(() => {
+onShow(() => {
   handleAsyncOperation('user:profile:load');
 });
-onShow(() => {});
 onHide(() => {});
 onError(() => {});
 

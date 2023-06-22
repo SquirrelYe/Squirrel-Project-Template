@@ -59,14 +59,9 @@ import tuiDivideList from '@/components/thorui/tui-divide-list/tui-divide-list.v
 const systemStore = useSystemStore();
 const profileStore = useProfileStore();
 
-const refUserProfile = ref<any>(null);
 const userProfile = ref({ avatar: '', nickname: '', explain: '' });
 
-onLoad(() => {
-  handleAsyncOperation('user:profile:load');
-});
-onTabItemTap(() => {
-  refUserProfile.value?.handleAsyncOperation('user:profile:load');
+onShow(() => {
   handleAsyncOperation('user:profile:load');
 });
 onError(() => {});

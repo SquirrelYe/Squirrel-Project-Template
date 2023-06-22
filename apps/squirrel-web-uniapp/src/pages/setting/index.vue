@@ -82,10 +82,10 @@ const userConfiguration = ref<any>({
   CarryHistoryNumber: 5
 });
 
-onLoad(() => {
+onLoad(() => {});
+onShow(() => {
   handleAsyncOperation('user:config:load');
 });
-onShow(() => {});
 onHide(() => {});
 onError(() => {});
 
