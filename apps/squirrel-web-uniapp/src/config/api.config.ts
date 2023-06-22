@@ -6,9 +6,9 @@
 class APIConfiguration {
   public static readonly ApiTest = '/api/v1/test/test';
 
-  public static readonly ApiWeiXinGetUserPhoneNumber = '/api/v1/weixin/getuserphonenumber'; // 获取微信用户手机号
-  public static readonly ApiWeiXinGetAccessToken = '/api/v1/weixin/getaccesstoken'; // 获取微信用户票据信息
-  public static readonly ApiWeiXinGetCosSignatureToken = '/api/v1/weixin/getauth'; // 获取云托管对象存储票据信息
+  public static readonly ApiWeiXinGetUserPhoneNumber = '/api/v1/weixin/getUserPhoneNumber'; // 获取微信用户手机号
+  public static readonly ApiWeiXinGetOpenId = '/api/v1/weixin/getOpenId'; // 获取微信用户OpenId
+  public static readonly ApiWeiXinGetCosSignatureToken = '/api/v1/weixin/getCosSignatureToken'; // 获取云托管对象存储票据信息
 
   public static readonly ApiSystemGetConfiguration = '/api/v1/system/GetSystemConfiguration'; // 获取系统配置
   public static readonly ApiSystemReportDeviceInfo = '/api/v1/system/ReportDeviceInfo'; // 上报用户设备信息

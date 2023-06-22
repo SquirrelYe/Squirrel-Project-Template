@@ -12,7 +12,7 @@ const DefaultSettings = {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: '某某管理系统',
+  title: '网评小助手管理系统',
   pwa: true,
   logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg', // './logo/logo.png',
   iconfontUrl: '',

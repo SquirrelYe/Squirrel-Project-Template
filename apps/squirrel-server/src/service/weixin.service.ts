@@ -1,6 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { axiosService } from '@/util/request';
-import { AxiosResponse } from 'axios';
+import { HandleException } from '@/framework/decorator/public.decorator';
+import { CommonConfiguration } from '@/configuration/common.configuration';
+
+import type { ServiceReturnType } from '@/types/index';
 
 /**
  * @description WeiXinService 微信服务类，用于处理微信相关业务逻辑，如微信开放平台接口调用等等
@@ -9,33 +12,41 @@ import { AxiosResponse } from 'axios';
  */
 @Injectable()
 export class WeiXinService {
-  /**
-   * @description getWeiXinOpenAPIResult 获取微信开放平台接口调用结果
-   * @author SquirrelYe <will@aesen.cc>
-   * @time 2023.06.08 11:09:48
-   */
-  async getWeiXinOpenAPIResult(url: string) {
-    let error: any, result: AxiosResponse;
-    try {
-      result = await axiosService.get(url);
-    } catch (error) {
-      error = error;
-    }
-    return [error, result];
+  // 获取云托管对象存储票据签名
+  @HandleException()
+  async getWeiXinCloudBaseStorageTicketSignature(): ServiceReturnType<any> {
+    const result = await axiosService.get('https://api.weixin.qq.com/_/cos/getauth');
+    return [null, result];
   }
 
-  /**
-   * @description postWeiXinOpenAPIResult 获取微信开放平台接口调用结果（POST方式）
-   * @author SquirrelYe <will@aesen.cc>
-   * @time 2023.06.12 19:29:28
-   */
-  async postWeiXinOpenAPIResult(url: string, data: any) {
-    let error: any, result: AxiosResponse;
-    try {
-      result = await axiosService.post(url, data);
-    } catch (error) {
-      error = error;
-    }
-    return [error, result];
+  // 获取微信Access Token
+  @HandleException()
+  async getWeiXinAccessToken(): ServiceReturnType<any> {
+    const AppID = CommonConfiguration.WeiXinMiniProgramAppId;
+    const Secret = CommonConfiguration.WeiXinMiniProgramAppSecret;
+    const GrantType = 'client_credential';
+    const QueryString = `?grant_type=${GrantType}&appid=${AppID}&secret=${Secret}`;
+    const result = await axiosService.get(`https://api.weixin.qq.com/cgi-bin/token${QueryString}`);
+    return [null, result];
+  }
+
+  // 获取用户电话号码
+  @HandleException()
+  async getWeiXinUserPhoneNumber(Code: string, AccessToken: string): ServiceReturnType<any> {
+    const QueryString = `?access_token=${AccessToken}`;
+    const reqbody = { code: Code };
+    const result = await axiosService.post(`https://api.weixin.qq.com/wxa/business/getuserphonenumber${QueryString}`, reqbody);
+    return [null, result];
+  }
+
+  // 获取用户OpenId
+  @HandleException()
+  async getWeiXinUserOpenID(Code: string): ServiceReturnType<any> {
+    const AppID = CommonConfiguration.WeiXinMiniProgramAppId;
+    const Secret = CommonConfiguration.WeiXinMiniProgramAppSecret;
+    const GrantType = 'authorization_code';
+    const QueryString = `?grant_type=${GrantType}&appid=${AppID}&secret=${Secret}&js_code=${Code}`;
+    const result = await axiosService.get(`https://api.weixin.qq.com/sns/jscode2session${QueryString}`);
+    return [null, result];
   }
 }

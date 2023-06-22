@@ -22,11 +22,11 @@ export const useSystemStore = defineStore('system', {
   actions: {
     setSysMiniProgramConfig(config: any) {
       this.sysMiniProgramConfig = config;
-      uni.setStorageSync('system::sysMiniProgramConfig', config);
+      uni.setStorageSync('system::sys_mini_program_config', config);
     },
     setSysDeviceInfo(deviceInfo: any) {
       this.sysDeviceInfo = deviceInfo;
-      uni.setStorageSync('system::sysDeviceInfo', deviceInfo);
+      uni.setStorageSync('system::sys_device_info', deviceInfo);
     }
   }
 });

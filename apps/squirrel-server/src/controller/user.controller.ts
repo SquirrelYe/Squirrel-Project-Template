@@ -1,10 +1,11 @@
-import { ConsoleLogger, Inject } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
 import { Controller, Post, Headers, Body, HttpCode, HttpStatus } from '@nestjs/common';
 
 import { User, UserRepository } from '@/repository/user.repository';
+import { Logger } from '@/util/logger';
 import { R } from '@/util/R';
 
-const logger = new ConsoleLogger('UserController');
+const logger = new Logger('UserController');
 
 @Controller('/api/v1/user')
 export class UserController {
@@ -13,7 +14,7 @@ export class UserController {
   @Post('/GetUserProfile')
   @HttpCode(HttpStatus.OK)
   async GetUserProfile(@Headers() headers: any) {
-    const openID = headers['x-wx-openid'];
+    const openID = headers['__openid__'];
     const [err, res] = await this.userRepository.findOne<User>({ where: { OpenID: openID }, raw: true });
     if (err) return R.error(-1, err.message);
     return R.ok(res);
@@ -22,7 +23,7 @@ export class UserController {
   @Post('/UpdateUserProfile')
   @HttpCode(HttpStatus.OK)
   async UpdateUserProfile(@Headers() headers: any, @Body() body: any) {
-    const openID = headers['x-wx-openid'];
+    const openID = headers['__openid__'];
     const userObj = new User();
     userObj.ID = body.UserID;
     userObj.Avatar = body.Avatar;
@@ -39,7 +40,7 @@ export class UserController {
   @Post('/GetUserConfiguration')
   @HttpCode(HttpStatus.OK)
   async GetUserConfiguration(@Headers() headers: any) {
-    const openID = headers['x-wx-openid'];
+    const openID = headers['__openid__'];
     const config = {};
     return R.ok(config);
   }
@@ -47,7 +48,7 @@ export class UserController {
   @Post('/UpdateUserConfiguration')
   @HttpCode(HttpStatus.OK)
   async UpdateUserConfiguration(@Headers() headers: any, @Body() body: any) {
-    const openID = headers['x-wx-openid'];
+    const openID = headers['__openid__'];
     const config = {};
     return R.ok(config);
   }

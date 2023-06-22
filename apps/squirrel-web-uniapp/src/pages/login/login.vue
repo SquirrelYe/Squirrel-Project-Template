@@ -67,8 +67,8 @@ const isShowTokenModal = ref(false);
 const formUserNickname = ref('');
 const userIdentity = computed(() => systemStore.sysMiniProgramConfig.UserIdentificationCodePrefix + profileStore.userOpenID);
 
-onLoad(() => {
-  handleAsyncOperation('user:verify');
+onLoad(async () => {
+  await handleAsyncOperation('user:verify');
 });
 onShow(() => {});
 onHide(() => {});
@@ -96,7 +96,6 @@ const handleAsyncOperation = async (type: string, args?: any) => {
       const reqPath = APIConfiguration.ApiAuthRegister;
       const reqObj = { UserName: formUserNickname.value };
       const [_, res] = await requestUtils.request({ path: reqPath, data: reqObj, header: {} });
-      profileStore.setUserOpenID(res.Data.OpenID);
       isShowTokenModal.value = true;
       break;
     }
@@ -105,7 +104,6 @@ const handleAsyncOperation = async (type: string, args?: any) => {
       const reqObj = {};
       const [_, res] = await requestUtils.request({ path: reqPath, data: reqObj, header: {} });
       profileStore.setUserToken(res.Data.Token);
-      profileStore.setUserOpenID(res.Data.User.OpenID);
       profileStore.setUserIsLogin(true);
 
       // 跳转首页

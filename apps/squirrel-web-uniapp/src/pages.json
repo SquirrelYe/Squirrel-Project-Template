@@ -1,84 +1,4 @@
 {
-  "pages": [
-    {
-      "path": "pages/index/index",
-      "style": {
-        "navigationBarBackgroundColor": "#f8f8f8",
-        "navigationBarTextStyle": "black",
-        "navigationBarTitleText": "首页信息",
-        "mp-weixin": {
-          "disableScroll": true
-        }
-      }
-    },
-    {
-      "path": "pages/index/profile",
-      "style": {
-        "navigationBarBackgroundColor": "#FFFFFF",
-        "navigationBarTextStyle": "black",
-        "navigationBarTitleText": "个人中心",
-        "mp-weixin": {
-          "disableScroll": true
-        }
-      }
-    },
-    {
-      "path": "pages/profile/setting",
-      "style": {
-        "navigationBarBackgroundColor": "#FFFFFF",
-        "navigationBarTextStyle": "black",
-        "navigationBarTitleText": "个人信息",
-        "mp-weixin": {
-          "disableScroll": true
-        }
-      }
-    },
-    {
-      "path": "pages/setting/index",
-      "style": {
-        "navigationBarBackgroundColor": "#FFFFFF",
-        "navigationBarTextStyle": "black",
-        "navigationBarTitleText": "系统设置",
-        "mp-weixin": {
-          "disableScroll": true
-        }
-      }
-    },
-    {
-      "path": "pages/about/index",
-      "style": {
-        "navigationBarBackgroundColor": "#FFFFFF",
-        "navigationBarTextStyle": "black",
-        "navigationBarTitleText": "关于系统",
-        "mp-weixin": {
-          "disableScroll": true
-        }
-      }
-    },
-    {
-      "path": "pages/login/login",
-      "style": {
-        "navigationBarBackgroundColor": "#0076ff",
-        "navigationBarTextStyle": "black",
-        "navigationBarTitleText": "",
-        "mp-weixin": {
-          "disableScroll": true
-        }
-      },
-      "layout": "default"
-    },
-    {
-      "path": "pages/login/protocol",
-      "style": {
-        "navigationBarBackgroundColor": "#FFFFFF",
-        "navigationBarTextStyle": "black",
-        "navigationBarTitleText": "用户协议",
-        "mp-weixin": {
-          "disableScroll": false
-        }
-      }
-    }
-  ],
   "tabBar": {
     "color": "#2c2c2c",
     "selectedColor": "#0076ff",
@@ -104,7 +24,7 @@
   },
   "globalStyle": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "某某",
+    "navigationBarTitleText": "网评小助手",
     "navigationBarBackgroundColor": "#f8f8f8",
     "backgroundColor": "#f8f8f8"
   },
@@ -112,5 +32,93 @@
   "easycom": {
     "autoscan": false,
     "custom": {}
-  }
+  },
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "type": "home",
+      "style": {
+        "navigationBarBackgroundColor": "#f8f8f8",
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "首页信息",
+        "mp-weixin": {
+          "disableScroll": true
+        }
+      }
+    },
+    {
+      "path": "pages/about/index",
+      "type": "page",
+      "style": {
+        "navigationBarBackgroundColor": "#FFFFFF",
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "关于系统",
+        "mp-weixin": {
+          "disableScroll": true
+        }
+      }
+    },
+    {
+      "path": "pages/index/profile",
+      "type": "page",
+      "style": {
+        "navigationBarBackgroundColor": "#FFFFFF",
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "个人中心",
+        "mp-weixin": {
+          "disableScroll": true
+        }
+      }
+    },
+    {
+      "path": "pages/login/login",
+      "type": "page",
+      "style": {
+        "navigationBarBackgroundColor": "#0076ff",
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "",
+        "mp-weixin": {
+          "disableScroll": true
+        }
+      },
+      "layout": "default"
+    },
+    {
+      "path": "pages/login/protocol",
+      "type": "page",
+      "style": {
+        "navigationBarBackgroundColor": "#FFFFFF",
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "用户协议",
+        "mp-weixin": {
+          "disableScroll": false
+        }
+      }
+    },
+    {
+      "path": "pages/profile/setting",
+      "type": "page",
+      "style": {
+        "navigationBarBackgroundColor": "#FFFFFF",
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "个人信息",
+        "mp-weixin": {
+          "disableScroll": true
+        }
+      }
+    },
+    {
+      "path": "pages/setting/index",
+      "type": "page",
+      "style": {
+        "navigationBarBackgroundColor": "#FFFFFF",
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "系统设置",
+        "mp-weixin": {
+          "disableScroll": true
+        }
+      }
+    }
+  ],
+  "subPackages": []
 }

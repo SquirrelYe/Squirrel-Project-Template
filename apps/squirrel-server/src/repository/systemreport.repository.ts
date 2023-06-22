@@ -19,7 +19,7 @@ export class SystemReport extends Model {
 
   @Comment('上报数据值')
   @Column(DataType.JSON)
-  Content: Record<string, any>;
+  Content: any;
 
   @Column(DataType.DATE)
   CreatedAt: Date;

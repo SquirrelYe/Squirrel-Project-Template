@@ -23,7 +23,7 @@ export class AuthController {
   @Public()
   @HttpCode(HttpStatus.OK)
   async register(@Headers() headers: any, @Body() body: any) {
-    const openID = headers['x-wx-openid'];
+    const openID = headers['__openid__'];
     const userName = body.UserName;
 
     const userObj = new User();
@@ -46,7 +46,7 @@ export class AuthController {
   @Public()
   @HttpCode(HttpStatus.OK)
   async login(@Headers() headers: any) {
-    const openID = headers['x-wx-openid'];
+    const openID = headers['__openid__'];
     const userObj = new User();
     userObj.OpenID = openID;
 
@@ -100,7 +100,7 @@ export class AuthController {
   @Public()
   @HttpCode(HttpStatus.OK)
   async verify(@Headers() headers: any) {
-    const openID = headers['x-wx-openid'];
+    const openID = headers['__openid__'];
     const [err, res] = await this.userService.getUserByOpenID(openID);
     if (err) return R.error(-1, err.message);
     return R.ok(res);

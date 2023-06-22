@@ -21,5 +21,7 @@
     "useDefineForClassFields": true,
     "noUnusedLocals": true,
     "forceConsistentCasingInFileNames": true
-  }
+  },
+  "include": ["apps", "libs", "packages"],
+  "exclude": ["node_modules", "**/*/dist", "**/*.js"]
 }

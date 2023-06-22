@@ -1,4 +1,4 @@
-import { ConsoleLogger, Inject } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
 import { Controller, Post, Headers, Body, HttpCode, HttpStatus } from '@nestjs/common';
 
 import { AuthService } from '@/service/auth.service';
@@ -9,7 +9,7 @@ import { R } from '@/util/R';
 import { Logger } from '@/util/logger';
 import { Public, Role, Roles } from '@/framework/decorator/public.decorator';
 
-const logger = new ConsoleLogger('AdminController');
+const logger = new Logger('AdminController');
 
 @Controller('/api/v1/admin')
 export class AdminController {

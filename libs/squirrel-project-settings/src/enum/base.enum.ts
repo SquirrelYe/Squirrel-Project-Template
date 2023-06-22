@@ -3,3 +3,4 @@
  * @author SquirrelYe <will@aesen.cc>
  * @time 2023.06.20 10:57:24
  */
+export enum BaseEnum {}

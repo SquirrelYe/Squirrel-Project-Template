@@ -2,8 +2,8 @@ import { defineConfig } from 'vite';
 import UnoCSS from 'unocss/vite';
 import Uni from '@dcloudio/vite-plugin-uni';
 
-// import UniHelperManifest from '@uni-helper/vite-plugin-uni-manifest';
-// import UniHelperPages from '@uni-helper/vite-plugin-uni-pages';
+import UniHelperManifest from '@uni-helper/vite-plugin-uni-manifest';
+import UniHelperPages from '@uni-helper/vite-plugin-uni-pages';
 import UniHelperLayouts from '@uni-helper/vite-plugin-uni-layouts';
 
 /**
@@ -13,8 +13,8 @@ import UniHelperLayouts from '@uni-helper/vite-plugin-uni-layouts';
  */
 export default defineConfig({
   plugins: [
-    // UniHelperManifest(),
-    // UniHelperPages(),
+    UniHelperManifest(), // 使用TS形式输出manifest.json
+    UniHelperPages(), // 使用TS形式输出pages.json
     UniHelperLayouts(),
     UnoCSS(),
     Uni()

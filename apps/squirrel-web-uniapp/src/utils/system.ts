@@ -71,6 +71,17 @@ class SystemUtils {
     systemStore.setSysMiniProgramConfig(sysConfigres.Data);
   }
 
+  // 获取OpenId
+  public async getOpenId() {
+    const loginCode = await uni.login({ provider: 'weixin' });
+    const reqPath = APIConfiguration.ApiWeiXinGetOpenId;
+    const reqObj = { Code: loginCode.code };
+    const [usererr, userres] = await requestUtils.request({ path: reqPath, method: 'POST', data: reqObj, header: {} });
+    if (usererr) return;
+    const { OpenId, SessionKey } = userres.Data;
+    useProfileStore().setUserOpenID(OpenId, SessionKey);
+  }
+
   // 验证用户登录态
   public async validateUserLoginStatus() {
     const profileStore = useProfileStore();
@@ -79,7 +90,7 @@ class SystemUtils {
 
     const [validateerr, validateres] = await requestUtils.request({ path: reqValidatePath, data: reqValidateObj, header: {} });
     if (validateerr) {
-      profileStore.clearUser();
+      profileStore.clearUserLoginStatus();
       uni.showToast({ title: '用户登录态验证失败', icon: 'none' });
       uni.redirectTo({ url: '/pages/login/login' });
       return;

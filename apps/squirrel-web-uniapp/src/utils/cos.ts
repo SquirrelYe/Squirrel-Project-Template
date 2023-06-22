@@ -43,15 +43,9 @@ class COSUtils {
   // 上传文件
   public static uploadFile = (cosClient: any, filePath: string, cloudPath: string): Promise<[Error, any]> => {
     return new Promise(resolve => {
-      cosClient.putObject(
-        {
-          Bucket: CommonConfiguration.WeiXinCloudBaseFileStorageBucket,
-          Region: CommonConfiguration.WeiXinCloudBaseFileStorageRegion,
-          Key: cloudPath,
-          FilePath: filePath
-        },
-        (err: any, data: any) => resolve([err, data])
-      );
+      const Bucket = CommonConfiguration.WeiXinCloudBaseFileStorageBucket;
+      const Region = CommonConfiguration.WeiXinCloudBaseFileStorageRegion;
+      cosClient.putObject({ Bucket, Region, Key: cloudPath, FilePath: filePath }, (err: any, data: any) => resolve([err, data]));
     });
   };
 
@@ -60,14 +54,9 @@ class COSUtils {
     const formatCloudPath = cloudPath.startsWith('/') ? cloudPath : '/' + cloudPath;
     const cosBucket = CommonConfiguration.WeiXinCloudBaseFileStorageBucket;
     const serviceEnv = CommonConfiguration.WeiXinCloudBaseEnvironment;
-
     const FileID = `cloud://${serviceEnv}.${cosBucket}${formatCloudPath}`;
     const FilePath = `https://${cosBucket}.tcb.qcloud.la${formatCloudPath}`;
-
-    return {
-      FileID,
-      FilePath
-    };
+    return { FileID, FilePath };
   };
 }
 

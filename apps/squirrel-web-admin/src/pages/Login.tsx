@@ -65,11 +65,17 @@ export default (props: Record<string, any>) => {
   return (
     <div className={containerClassName}>
       <Helmet>
-        <title>{'某某 - 登录'}</title>
+        <title>{'网评小助手 - 登录'}</title>
       </Helmet>
 
       <div style={{ flex: '1', margin: '100px 0' }}>
-        <LoginForm contentStyle={{ minWidth: 280, maxWidth: '75vw' }} logo={<img alt="logo" src={settings!.logo} />} title="某某管理系统" initialValues={{ autoLogin: true }} onFinish={doLoginSystem}>
+        <LoginForm
+          contentStyle={{ minWidth: 280, maxWidth: '75vw' }}
+          logo={<img alt="logo" src={settings!.logo} />}
+          title="网评小助手管理系统"
+          initialValues={{ autoLogin: true }}
+          onFinish={doLoginSystem}
+        >
           <div style={{ marginTop: '30px' }}>
             <ProFormText
               name="username"

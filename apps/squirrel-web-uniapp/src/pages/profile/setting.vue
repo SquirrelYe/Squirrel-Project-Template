@@ -190,13 +190,6 @@ const handleAsyncOperation = async (type: string, args?: any) => {
         return;
       }
 
-      // const reqPath = APIConfiguration.ApiWeiXinGetAccessToken;
-      // const reqObj = {};
-      // const [usererr, userres] = await new RequestUtils().request({ path: reqPath, method: 'POST', data: reqObj, header: {} });
-      // if (usererr) return;
-      // const { access_token: AccessToken } = userres.Data;
-      // const reqPhoneObj = { AccessToken, Code };
-
       const reqPhonePath = APIConfiguration.ApiWeiXinGetUserPhoneNumber;
       const reqPhoneObj = { Code };
       const [phoneerr, phoneres] = await new RequestUtils().request({ path: reqPhonePath, method: 'POST', data: reqPhoneObj, header: {} });
@@ -219,7 +212,7 @@ const handleAsyncOperation = async (type: string, args?: any) => {
       const filePath = args.detail.avatarUrl;
 
       // 1. 上传文件
-      const cloudPath = '/' + CommonConfiguration.WeiXinCloudBaseFileUserAvatarUploadDirectory + '/' + new Date().getTime() + '-' + filePath.split('/').pop();
+      const cloudPath = CommonConfiguration.WeiXinCloudBaseFileUserAvatarUploadDirectory + '/' + new Date().getTime() + '-' + filePath.split('/').pop();
       const [uploaderr, uploadres] = await new RequestUtils().uploadFile({ cloudPath: cloudPath, filePath: filePath });
       if (uploaderr) return;
 

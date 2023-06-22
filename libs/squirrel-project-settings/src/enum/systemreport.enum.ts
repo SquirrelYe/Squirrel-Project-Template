@@ -5,7 +5,7 @@
  */
 
 // 客户端设备类型
-export enum SystemConfigurationClientRuntimeType {
+export enum SystemReportClientRuntimeType {
   MiniProgramWeiXin = 'MiniProgramWeiXin',
   WebH5 = 'Web',
   AppAndroid = 'AppAndroid',
@@ -13,7 +13,7 @@ export enum SystemConfigurationClientRuntimeType {
 }
 
 // 数据上报类型
-export enum SystemConfigurationClientReportType {
+export enum SystemReportClientReportType {
   Device = 'Device',
   UserLogin = 'UserLogin',
   UserLogout = 'UserLogout',
@@ -21,7 +21,7 @@ export enum SystemConfigurationClientReportType {
 }
 
 // 数据上报来源
-export enum SystemConfigurationClientReportSource {
+export enum SystemReportClientReportSource {
   OnUserLogin = 'OnUserLogin',
   OnUserLogout = 'OnUserLogout',
   OnUserReach = 'OnUserReach',

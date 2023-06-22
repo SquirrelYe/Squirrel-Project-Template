@@ -16,7 +16,7 @@ class BaseSequelizeDAO {
   }
 
   // [C] 新增数据
-  public async create<M>(data: Optional<any, string> | M, options?: CreateOptions<any>): Promise<SquirrelSequelizeResult<M>> {
+  public async create<M extends Model>(data: Optional<any, string> | M, options?: CreateOptions<any>): Promise<SquirrelSequelizeResult<M>> {
     let [err, res]: SquirrelSequelizeResult<M> = [null, null];
     try {
       const saveData = data instanceof this.sequelizeRepository ? data.toJSON() : data;
@@ -44,7 +44,8 @@ class BaseSequelizeDAO {
   public async upsert<M extends Model>(values: any, options?: CreateOptions<any>): Promise<SquirrelSequelizeResult<[M, boolean]>> {
     let [err, res]: SquirrelSequelizeResult<[M, boolean]> = [null, null];
     try {
-      res = await this.sequelizeRepository.upsert<any>(values, options);
+      const targetObj = values instanceof this.sequelizeRepository ? values.toJSON() : values;
+      res = await this.sequelizeRepository.upsert<any>(targetObj, options);
     } catch (e: any) {
       console.error(`[DB Exception]: create or update data to ${this.sequelizeRepository.name} failed.`, values, e);
       err = new DataBaseException(e.message);
@@ -81,7 +82,6 @@ class BaseSequelizeDAO {
     let [err, res]: SquirrelSequelizeResult<[affectedCount: number]> = [null, null];
     try {
       const updateObj = values instanceof this.sequelizeRepository ? values.toJSON() : values;
-      console.log('updateObj', updateObj);
       res = await this.sequelizeRepository.update<any>(updateObj, options);
     } catch (e: any) {
       console.error(`[DB Exception]: update data from ${this.sequelizeRepository.name} failed.`, values, options, e);
