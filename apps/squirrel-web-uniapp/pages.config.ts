@@ -43,7 +43,8 @@ export default defineUniPages({
         navigationBarTextStyle: 'black',
         navigationBarTitleText: '首页信息',
         'mp-weixin': { disableScroll: true }
-      }
+      },
+      layout: 'default'
     },
     {
       path: 'pages/index/profile',
@@ -52,7 +53,8 @@ export default defineUniPages({
         navigationBarTextStyle: 'black',
         navigationBarTitleText: '个人中心',
         'mp-weixin': { disableScroll: true }
-      }
+      },
+      layout: 'default'
     },
     {
       path: 'pages/profile/setting',
@@ -61,7 +63,8 @@ export default defineUniPages({
         navigationBarTextStyle: 'black',
         navigationBarTitleText: '个人信息',
         'mp-weixin': { disableScroll: true }
-      }
+      },
+      layout: 'default'
     },
     {
       path: 'pages/setting/index',
@@ -70,7 +73,8 @@ export default defineUniPages({
         navigationBarTextStyle: 'black',
         navigationBarTitleText: '系统设置',
         'mp-weixin': { disableScroll: true }
-      }
+      },
+      layout: 'default'
     },
     {
       path: 'pages/about/index',
@@ -79,7 +83,8 @@ export default defineUniPages({
         navigationBarTextStyle: 'black',
         navigationBarTitleText: '关于系统',
         'mp-weixin': { disableScroll: true }
-      }
+      },
+      layout: 'default'
     },
     {
       path: 'pages/login/login',
@@ -89,7 +94,7 @@ export default defineUniPages({
         navigationBarTitleText: '',
         'mp-weixin': { disableScroll: true }
       },
-      layout: 'default'
+      layout: ''
     },
     {
       path: 'pages/login/protocol',
@@ -98,7 +103,8 @@ export default defineUniPages({
         navigationBarTextStyle: 'black',
         navigationBarTitleText: '用户协议',
         'mp-weixin': { disableScroll: false }
-      }
+      },
+      layout: ''
     }
   ]
 });

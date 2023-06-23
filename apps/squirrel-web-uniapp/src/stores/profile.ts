@@ -8,6 +8,7 @@ export const useProfileStore = defineStore('profile', {
       userIsLogin: uni.getStorageSync('profile::chat_user_is_login') ? true : false, // 是否登录
       userToken: uni.getStorageSync('profile::chat_user_token') || null, // 用户登录token
       userOpenID: uni.getStorageSync('profile::chat_user_openid') || null, // 用户openid
+      userName: uni.getStorageSync('profile::chat_user_name') || null, // 用户昵称
       userSessionKey: uni.getStorageSync('profile::chat_user_session_key') || null, // 用户SessionKey
       userAvatar: uni.getStorageSync('profile::chat_user_avatar') || CommonConfiguration.defaultUserAvatar // 用户头像
     };
@@ -30,6 +31,10 @@ export const useProfileStore = defineStore('profile', {
       this.userSessionKey = sessionKey;
       uni.setStorageSync('profile::chat_user_openid', openid);
       uni.setStorageSync('profile::chat_user_session_key', sessionKey);
+    },
+    setUserName(name: string) {
+      this.userName = name;
+      uni.setStorageSync('profile::chat_user_name', name);
     },
     setUserAvatar(avatar: string) {
       this.userAvatar = avatar;

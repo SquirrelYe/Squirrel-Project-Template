@@ -1,6 +1,6 @@
 {
   "Print to console": {
-    "prefix": "tscomment",
+    "prefix": "uniapp-vue3-template",
     "body": [
       "<template>",
       "  <view class=\"x-profile-setting-container\"> </view>",

@@ -105,6 +105,7 @@ const handleAsyncOperation = async (type: string, args?: any) => {
       const [_, res] = await requestUtils.request({ path: reqPath, data: reqObj, header: {} });
       profileStore.setUserToken(res.Data.Token);
       profileStore.setUserIsLogin(true);
+      profileStore.setUserName(res.Data.User?.UserName || '');
 
       // 跳转首页
       uni.switchTab({ url: '/pages/index/index' });
