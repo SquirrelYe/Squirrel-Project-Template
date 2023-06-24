@@ -1,11 +1,15 @@
 import { defineConfig } from '@umijs/max';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 
 import { DefaultSettings } from './default.settings';
 import { Proxy } from './proxy';
 import { Routes } from './routes';
 
-const { environment = 'dev' } = process.env;
+const environment = process.env.NODE_ENV || 'development';
+const cdnHost = 'https://prod-4g3qwhltc0f94f6c-1318691297.tcloudbaseapp.com/'; // 关联云开发环境的 静态资源存储 - CDN 域名
+const publicPath = process.env.NODE_ENV === 'production' ? cdnHost : '/';
+
+console.log('development --->', environment);
 
 /**
  * @description UniJS Max 项目配置文件
@@ -14,6 +18,7 @@ const { environment = 'dev' } = process.env;
  */
 export default defineConfig({
   hash: true,
+  history: { type: 'hash' },
   routes: Routes,
   theme: { 'root-entry-name': 'variable' }, // 如果不想要 configProvide 动态设置主题需要把这个设置为 default。只有设置为 variable，才能使用 configProvide 动态设置主色调。
   ignoreMomentLocale: true,
@@ -24,6 +29,7 @@ export default defineConfig({
     '@@/*': resolve(__dirname, '../src/.umi/'),
     '@/*': resolve(__dirname, '../src/')
   },
+  publicPath: publicPath,
 
   //============== 以下都是 Max 的插件配置 ===============
 
@@ -36,7 +42,7 @@ export default defineConfig({
   request: {},
   access: {},
   valtio: {},
-  headScripts: [{ src: '/scripts/loading.js', async: true }],
+  headScripts: [{ src: publicPath + 'scripts/loading.js', async: true }],
 
   //================ Pro 插件配置 =================
 

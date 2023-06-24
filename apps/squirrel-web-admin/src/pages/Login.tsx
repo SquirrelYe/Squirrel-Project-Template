@@ -17,7 +17,6 @@ import Footer from '@/components/Footer';
  * @time 2023.06.18 16:19:54
  */
 export default (props: Record<string, any>) => {
-  console.log('Login', props);
   const { initialState } = useModel('@@initialState');
   const { settings } = initialState || {};
 
@@ -48,8 +47,10 @@ export default (props: Record<string, any>) => {
         userProfileStore.setUserToken(loginres.Data.Token);
         userProfileStore.setUserName(loginres.Data.User.UserName);
         await doFetchAdminProfileInfo();
+
         // 跳转到登录前的页面
-        const urlParams = new URL(window.location.href).searchParams;
+        const formatHref = window.location.href.replace('#', '');
+        const urlParams = new URL(formatHref).searchParams;
         history.push(urlParams.get('redirect') || '/');
       } else {
         const { Message } = loginres;

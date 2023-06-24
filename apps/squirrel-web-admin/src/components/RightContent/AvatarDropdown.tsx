@@ -31,12 +31,9 @@ export const AvatarDropdown = ({ children }: { children: React.ReactNode }) => {
     await adminLogout({});
     userProfileStore.setUserLogout();
 
-    const { search, pathname } = window.location;
-    const urlParams = new URL(window.location.href).searchParams;
-    const redirect = urlParams.get('redirect');
-    if (window.location.pathname !== '/user/login' && !redirect) {
-      history.replace({ pathname: '/user/login', search: stringify({ redirect: pathname + search }) });
-    }
+    const { hash } = window.location;
+    const formatHash = hash.replace('#', '');
+    history.replace({ pathname: '/user/login', search: stringify({ redirect: formatHash }) });
   };
 
   const actionClassName = useEmotionCss(({ token }) => {

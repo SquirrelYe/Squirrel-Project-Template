@@ -4,7 +4,7 @@
  * @time 2023.06.18 15:46:11
  */
 const Proxy: Record<string, any> = {
-  dev: {
+  development: {
     '/api/': {
       target: 'http://localhost:3000',
       changeOrigin: true,
