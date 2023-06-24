@@ -124,7 +124,6 @@ const userInfo = ref({
   birthday: CommonConfiguration.defaultUserBirthday,
   phone: CommonConfiguration.defaultUserPhone
 });
-const userIdentity = computed(() => systemStore.sysMiniProgramConfig.UserIdentificationCodePrefix + profileStore.userOpenID);
 const settingType = ref(''); // 修改数据类型
 const formUserNickname = ref(''); // 修改昵称
 const formUserPhone = ref(''); // 修改手机号
@@ -262,18 +261,6 @@ const handleSyncOperation = (type: string, args?: any) => {
     }
     case 'setting:birthday:change': {
       refCalendar.value.show();
-      break;
-    }
-    case 'setting:openid:copy': {
-      uni.setClipboardData({
-        data: userIdentity.value,
-        success: () => {
-          uni.showToast({ title: '复制用户编码成功', icon: 'none' });
-        },
-        fail: () => {
-          uni.showToast({ title: '复制用户编码失败', icon: 'none' });
-        }
-      });
       break;
     }
     default:

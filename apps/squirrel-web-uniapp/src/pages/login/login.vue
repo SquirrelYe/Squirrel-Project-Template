@@ -65,7 +65,7 @@ const profileStore = useProfileStore();
 const isUserRegister = ref(false);
 const isShowTokenModal = ref(false);
 const formUserNickname = ref('');
-const userIdentity = computed(() => systemStore.sysMiniProgramConfig.UserIdentificationCodePrefix + profileStore.userOpenID);
+const userIdentity = computed(() => profileStore.userOpenID);
 
 onLoad(async () => {
   await handleAsyncOperation('user:verify');
