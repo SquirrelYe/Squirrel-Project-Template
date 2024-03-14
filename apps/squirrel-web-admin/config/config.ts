@@ -6,7 +6,7 @@ import { Proxy } from './proxy';
 import { Routes } from './routes';
 
 const environment = process.env.NODE_ENV || 'development';
-const cdnHost = 'https://prod-4g3qwhltc0f94f6c-1318691297.tcloudbaseapp.com/'; // 关联云开发环境的 静态资源存储 - CDN 域名
+const cdnHost = 'https://xxxx-1318691297.tcloudbaseapp.com/'; // 关联云开发环境的 静态资源存储 - CDN 域名
 const publicPath = process.env.NODE_ENV === 'production' ? cdnHost : '/';
 
 console.log('development --->', environment);
