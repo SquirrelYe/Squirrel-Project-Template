@@ -9,7 +9,7 @@ class CommonConfiguration extends UniappConfiguration {
   // 环境配置
   // 注意：development 环境会在请求头中添加模拟请求头并且使用开发环境的请求地址
   // 注意：release 环境会直接请求云托管服务，服务会自动添加请求头
-  public static readonly environment: 'development' | 'release' = 'release';
+  public static readonly environment: 'development' | 'release' = 'development';
 
   // 系统配置信息
   public static readonly SystemConfigurationTypeMiniProgram: string = 'MiniProgram'; // 系统配置类型-小程序
